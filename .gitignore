@@ -1,0 +1,14 @@
+# Large generated index files (share these through Drive instead)
+index_data/
+cleaned_dataset.jsonl
+
+# Models and arrays (Word2Vec, embeddings)
+*.model
+*.npy
+
+# Python and Colab clutter
+__pycache__/
+.ipynb_checkpoints/
+.env
+
+
