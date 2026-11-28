@@ -46,3 +46,30 @@ class BarrelStore:
         for ch in letters:
             if not os.path.exists(self._path(ch)):
                 self._write_atomic(ch, {})
+
+def _path(self, ch):
+        # Get the full file path for a specific barrel.
+        # os.path.join is used because Windows uses \ and Linux/Mac uses / This makes the code work on any computer
+        return os.path.join(self.folder, f"{ch}.json")
+
+    def _read_file(self, ch):
+        # opening barrel file from the disk and turninig the JSON text into a dictionary
+        # with open(...) which automatically closes the file after reading
+        with open(self._path(ch), "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    # writing data to the disk 
+    def _write_atomic(self, ch, data):
+        # Geting the file path 
+        path = self._path(ch)
+        
+        # Create a simple temporary path 
+        # coz if system crash the original dta 
+        tmp_path = path + ".tmp"
+        
+        # Write the data to the temporary file first
+        with open(tmp_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, separators=(",", ":"))
+            
+        # Replacing the temp file with the actual one 
+        os.replace(tmp_path, path)
